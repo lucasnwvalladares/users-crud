@@ -6,45 +6,49 @@ export const state = () => {
 }
 
 export const getters = {
-  getUsers(state) {
+  getUsers (state) {
     return state.users
   },
 
-  getCurrentUser(state) {
+  getCurrentUser (state) {
     return state.currentUser
   }
 }
 
 export const actions = {
   // action to get all users from API
-  async fetchAllUsers({ commit }) {
+  async fetchAllUsers ({ commit }) {
     await this.$axios.$get('https://jsonplaceholder.typicode.com/users')
       .then((result) => {
         commit('SET_USERS', result)
       })
       .catch((err) => {
         console.log('FAILED: \br' + err)
-      });
+      })
   },
 
   // action to get a user by ID from API
-  async fetchCurrentUser({ commit }, id) {
+  async fetchCurrentUser ({ commit }, id) {
     await this.$axios.$get('https://jsonplaceholder.typicode.com/users/' + id)
       .then((result) => {
         commit('SET_CURRENT_USER', result)
       })
       .catch((err) => {
-        console.log('FAILED: \br' + err)
-      });
+        alert('FAILED: \br' + err)
+      })
+  },
+
+  async deleteUser ({ commit }, id) {
+    await this.$axios.$delete('https://jsonplaceholder.typicode.com/users/' + id)
   }
 }
 
 export const mutations = {
-  SET_USERS(state, users) {
+  SET_USERS (state, users) {
     state.users = users
   },
 
-  SET_CURRENT_USER(state, user) {
+  SET_CURRENT_USER (state, user) {
     state.currentUser = user
   }
 }
