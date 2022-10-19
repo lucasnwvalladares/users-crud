@@ -16,7 +16,7 @@
             mdi-delete
           </v-icon>
         </v-btn>
-        <v-btn v-model="item.actions" @click="onUpdate">
+        <v-btn v-model="item.actions" @click.stop="onUpdate(item.id)">
           <v-icon small>
             mdi-pencil
           </v-icon>
@@ -93,9 +93,14 @@ export default {
     },
 
     // Update click method
-    onUpdate (event) {
-      event.preventDefault()
-      event.stopPropagation()
+    onUpdate (row) {
+      this.$store.dispatch('users/fetchCurrentUser', row)
+        .then((res) => {
+          this.$router.push({ path: '/users/' + row + '/update' })
+        })
+        .catch(() => {
+          alert('Something went wrong!')
+        })
     }
   }
 }

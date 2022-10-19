@@ -23,7 +23,7 @@ export const actions = {
         commit('SET_USERS', result)
       })
       .catch((err) => {
-        console.log('FAILED: \br' + err)
+        return err
       })
   },
 
@@ -36,6 +36,18 @@ export const actions = {
       .catch((err) => {
         alert('FAILED: \br' + err)
       })
+  },
+
+  async updateUser ({ commit }, { id, body }) {
+    try {
+      await this.$axios.$put('https://jsonplaceholder.typicode.com/users/' + id, { body })
+        .then((result) => {
+          commit('SET_CURRENT_USER', result)
+          return result
+        })
+    } catch (error) {
+      return error
+    }
   },
 
   async deleteUser ({ commit }, id) {
